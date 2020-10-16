@@ -2,49 +2,21 @@ import numpy as np
 import random
 from time import sleep
 
-WIDTH, HEIGHT = 10, 10
+WIDTH, HEIGHT = 15, 15
 field = np.zeros((WIDTH, WIDTH), int)
 
 
-"""
-Rules:
----------
-POV: 3 (Eagle)
-if neighbors includes one 2:
-    move to the 2's position
-else if neighbors includes more than one 2:
-    move to the first 2 in the neighbors
-else if neighbors does not include a 2:
-    turn self to 0 (dies to hunger)
----------
-POV: 2 (Cat)
-if neighbors includes one 1:
-    move to the 1's position
-else if neighbors includes more than one 1:
-    move to the first 1 in the neighbors
-else if neighbors does not include a 1:
-    turn self to 0 (dies to hunger)
----------
-POV: 1 (Mouse)
-if neighbors includes one 0:
-    move to the 0's position
-else if neighbors includes more than one 0:
-    move to the first 0 in the neighbors
 
-
-"""
-
-
+# spawns animals
 def placeAnimals():
     for row in range(HEIGHT):
         for column in range(WIDTH):
             field[row][column] = random.choice([1, 2, 3])
 
-
-def getNeighbors():
+#gets neighbors and applies rules
+def updateField():
     for row in range(HEIGHT):
         for column in range(WIDTH):
-
             positions = {
                 'above_left': (row - 1, column - 1),
                 'above': (row - 1, column),
@@ -67,7 +39,6 @@ def getNeighbors():
                             if neighbor == 2:
                                 field[indexes[0]][indexes[1]] = 3
                                 field[row][column] = 0
-
                             elif neighbor == 0:
                                 field[indexes[0]][indexes[1]] = 3
                                 field[row][column] = 0
@@ -92,35 +63,17 @@ def getNeighbors():
                 except IndexError:
                     pass
     print(field)
-    # return neighbors
+
 
 
 def main():
     placeAnimals()
     print(field)
     sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    sleep(1)
-    getNeighbors()
-    
+    for i in range(WIDTH): # to progressively see the simulation take place
+        updateField()
+        sleep(1)
+
 
 
 main()
